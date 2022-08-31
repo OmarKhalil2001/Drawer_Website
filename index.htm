@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<HTML style = " margin:0px; padding:0px; height:100%;">
+	<HEAD>
+	
+		<TITLE> Project : Drawer	</TITLE>
+		<Style>span{display: none;}
+			button.CB{
+				width : 20px;
+				height : 20px;
+				border-radius: 100px;
+				margin : 3px;
+				}
+
+			.shape{
+color: white;
+min-height: 25px;
+font-size: 12px;
+margin: 3px;
+padding: 5px;
+width: 100px;
+background : cadetblue;
+border : solid;
+border-width : 2px;
+border-radius : 5px;
+border-color: black;
+				}
+
+			
+		 </Style>
+	
+	</HEAD>
+
+	<BODY style = " margin:0px; padding:0px; height:100%;">
+		
+		<div>
+			<SCRIPT src = "lib/processing.min.js"></SCRIPT>
+			<script>
+
+				var shapeS = "ellipse";
+				var sizeS  = 20;
+				var greenC = 0;
+				var blueC = 255;
+				var redC  = 30;	
+			</script>
+
+			<script type = "application/processing">
+
+				size(document.body.clientWidth-1,document.body.clientHeight-5, 1);
+				background(255,255,255)
+				
+				var drawElli = function () {
+
+					var diff_x = mouseX - pmouseX;
+					var diff_y = mouseY - pmouseY;
+					var dis_y = diff_y/diff_x || 0;
+					var dis = 0;
+					var Icounter = diff_x;
+
+if(diff_x < 0 && diff_y < 0 ) {dis_y = dis_y * -1}
+if(diff_x < 0 && diff_y > 0 ) {dis_y = dis_y * 1} 
+
+			
+
+					if (Icounter < 0 && diff_y < 0) { 
+
+					for (var i = 0; i > Icounter; i-=1){
+
+					ellipse(mouseX - i,mouseY - dis,sizeS,sizeS);
+
+					dis+=dis_y;
+					
+					}}else if (Icounter < 0 && diff_y == 0) { 
+
+					for (var i = 0; i > Icounter; i-=1){
+
+					ellipse(mouseX - i,mouseY ,sizeS,sizeS);
+
+					
+							}}else if (Icounter > 0 && diff_y == 0) { 
+
+					for (var i = 0; i < Icounter; i+=1){
+
+					ellipse(mouseX + i,mouseY,sizeS,sizeS);
+
+					dis+=dis_y;
+							}}else if (Icounter < 0 && diff_y > 0) { 
+
+					for (var i = 0; i > Icounter; i-=1){
+
+					ellipse(mouseX - i,mouseY + dis,sizeS,sizeS);
+
+					dis+=dis_y;
+							}}
+					else if (Icounter === 0 && diff_y > 0) { 
+
+					for (var i = 0; i < diff_y; i+=1){
+
+					ellipse(mouseX ,mouseY - dis,sizeS,sizeS);
+
+					dis+=1;
+							}}else if (Icounter === 0 && diff_y < 0) { 
+
+					for (var i = 0; i > diff_y ; i-=1){
+
+					ellipse(mouseX ,mouseY + dis,sizeS,sizeS);
+
+					dis+=1;
+							}}else{
+					
+					for (var i = 0; i < Icounter; i+=1){
+
+					ellipse(mouseX - i,mouseY - dis,sizeS,sizeS);
+
+					dis+=dis_y;}
+							}}
+				
+
+				draw = function() {
+					
+					
+						
+
+					   document.querySelector("#sn").textContent = sizeS;
+		
+
+					   fill(redC, greenC, blueC);
+					   noStroke();
+
+					if (shapeS === "ellipse"){
+						circleB.style.borderColor = "orange";
+						triangleB.style.borderColor = "black";						
+						squareB.style.borderColor = "black";  
+						drawElli();drawElli();
+
+								}
+					else if (shapeS === "square"){
+						circleB.style.borderColor = "black";
+						squareB.style.borderColor = "orange";
+						triangleB.style.borderColor = "black";
+						rectMode(CENTER);
+						rect(mouseX,mouseY,sizeS,sizeS);
+
+								}
+					else if (shapeS === "triangle"){
+					circleB.style.borderColor = "black";
+					triangleB.style.borderColor = "orange";
+					squareB.style.borderColor = "black";
+					triangle(mouseX+sizeS/2,mouseY+sizeS/2 , mouseX, mouseY-sizeS/2, mouseX-sizeS/2 , mouseY+sizeS/2);
+
+								}			    
+				};
+
+			</script>
+
+		<canvas style = "margin:0px; padding:0px;"> </canvas>
+
+		<div id = "control-panel"  style= "width:20%; border :solid; position: absolute;top:50%;left:45% ; min-width: 10%; background: white; border-radius : 5px; padding: 10px">
+
+
+				<div id="colors-place"></div>
+			
+				<hr  style= " border :solid; border-width : 1px;">
+				<div align = "center" >
+				
+					<button class = "shape" id = "Circle"><b> Circle </b> </button><br>
+					<button class = "shape" id = "Square"><b> Square </b> </button><br>
+					<button class = "shape" id = "Triangle"><b> Triangle </b> </button>
+				<hr  style= " border :solid; border-width : 1px;">
+					<h2 style = "margin: 5px; "id = "sn"></h2>
+					<button class = "size" id = "add"><b> + </b> </button>
+					<button class = "size" id = "minus"><b> - </b> </button>
+				</div>
+
+		</div></div>
+
+		<script>
+
+var addB = document.querySelector("#add");
+var minusB = document.querySelector("#minus");
+
+addB.addEventListener("click", () => { sizeS++; });
+minusB.addEventListener("click", () => { sizeS--; if(sizeS <= 1){sizeS = 1;}  });
+
+		
+
+var circleB = document.querySelector("#Circle");
+var squareB = document.querySelector("#Square");
+var triangleB = document.querySelector("#Triangle");
+
+circleB.addEventListener("click", () => { shapeS = "ellipse"; });
+squareB.addEventListener("click", () => { shapeS = "square";  });
+triangleB.addEventListener("click", () => { shapeS = "triangle"; });
+
+		function colorsC (red , green , blue){
+
+			this.red = red;
+			this.green = green;
+			this.blue = blue;
+			
+		}
+
+		colorsC.prototype.createButton = function(){
+			
+			var but = document.createElement("button");
+			but.className= "CB";
+			document.querySelector("#colors-place").appendChild(but);
+			
+			this.button = document.querySelectorAll(".CB")[document.querySelectorAll(".CB").length -1];
+
+			this.button.style.background = `rgb(${this.red},${this.green}, ${this.blue})`;
+			
+		}
+		
+		var colorsArray = [ 	 new colorsC(255,255,255),
+					 new colorsC(0,0,0), 
+					 new colorsC(255,0,0), 
+					 new colorsC(255,255,0),
+					 new colorsC(0,0,255),
+					 new colorsC(0,255,0), 
+					 new colorsC(255,186,0), 
+					 new colorsC(0,224,160),new colorsC(58,24,160),new colorsC(79,22,90) ];
+
+		for (let i = 0; i < colorsArray.length; i++){
+
+			colorsArray[i].createButton();
+			colorsArray[i].button.addEventListener("click", () => {greenC = colorsArray[i].green; redC = colorsArray[i].red; blueC = colorsArray[i].blue;  })
+		}
+		</script>
+		</BODY>
+</HTML>

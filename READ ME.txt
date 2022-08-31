@@ -1,0 +1,6 @@
+
+Project Introduction: A simple drawing program.
+
+Technologies:JavaScript, HTML5, CSS, ProcessingJS.
+
+Developer: Omar Khalil.
